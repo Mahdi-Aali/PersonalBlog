@@ -1,0 +1,70 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{AEDFBAD3-B8C3-4A49-B326-9DC6A054A1AF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Category", "Category", "{FADA4ABA-A068-46D8-9B1C-6C38C63D71D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalBlog.CategoryService.Api", "Services\Category\PersonalBlog.CategoryService.Api\PersonalBlog.CategoryService.Api.csproj", "{7E9762FF-24BE-4FBA-968F-741B903F1060}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalBlog.CategoryService.Application", "Services\Category\PersonalBlog.CategoryService.Application\PersonalBlog.CategoryService.Application.csproj", "{80EAC9BB-DC3C-4BBF-97CF-3EC1AA85A8C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalBlog.CategoryService.Domain", "Services\Category\PersonalBlog.CategoryService.Domain\PersonalBlog.CategoryService.Domain.csproj", "{AB009046-9E1A-461E-87D1-513414252779}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalBlog.CategoryService.Infrastructure", "Services\Category\PersonalBlog.CategoryService.Infrastructure\PersonalBlog.CategoryService.Infrastructure.csproj", "{F9C42AF1-1B0B-4952-9B2B-63EC57BE8BB4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{A3BBCA0E-AA96-4522-BC78-28CAA2E63EA3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{2F742885-571F-4F0F-830B-DCCE77B53D10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalBlog.BuildingBlocks.DependencyResolver", "BuildingBlocks\Utilities\PersonalBlog.BuildingBlocks.DependencyResolver\PersonalBlog.BuildingBlocks.DependencyResolver.csproj", "{1E8D4FEE-31F0-4135-B874-B45CBCB6F3DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalBlog.BuildingBlocks.Extenssions", "BuildingBlocks\Utilities\PersonalBlog.BuildingBlocks.Extenssions\PersonalBlog.BuildingBlocks.Extenssions.csproj", "{49AF322A-68A1-4378-B2BE-34F012D6C09A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E9762FF-24BE-4FBA-968F-741B903F1060}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E9762FF-24BE-4FBA-968F-741B903F1060}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E9762FF-24BE-4FBA-968F-741B903F1060}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E9762FF-24BE-4FBA-968F-741B903F1060}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80EAC9BB-DC3C-4BBF-97CF-3EC1AA85A8C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80EAC9BB-DC3C-4BBF-97CF-3EC1AA85A8C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80EAC9BB-DC3C-4BBF-97CF-3EC1AA85A8C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80EAC9BB-DC3C-4BBF-97CF-3EC1AA85A8C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB009046-9E1A-461E-87D1-513414252779}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB009046-9E1A-461E-87D1-513414252779}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB009046-9E1A-461E-87D1-513414252779}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB009046-9E1A-461E-87D1-513414252779}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9C42AF1-1B0B-4952-9B2B-63EC57BE8BB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9C42AF1-1B0B-4952-9B2B-63EC57BE8BB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9C42AF1-1B0B-4952-9B2B-63EC57BE8BB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9C42AF1-1B0B-4952-9B2B-63EC57BE8BB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E8D4FEE-31F0-4135-B874-B45CBCB6F3DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E8D4FEE-31F0-4135-B874-B45CBCB6F3DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E8D4FEE-31F0-4135-B874-B45CBCB6F3DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E8D4FEE-31F0-4135-B874-B45CBCB6F3DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49AF322A-68A1-4378-B2BE-34F012D6C09A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49AF322A-68A1-4378-B2BE-34F012D6C09A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49AF322A-68A1-4378-B2BE-34F012D6C09A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49AF322A-68A1-4378-B2BE-34F012D6C09A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FADA4ABA-A068-46D8-9B1C-6C38C63D71D9} = {AEDFBAD3-B8C3-4A49-B326-9DC6A054A1AF}
+		{7E9762FF-24BE-4FBA-968F-741B903F1060} = {FADA4ABA-A068-46D8-9B1C-6C38C63D71D9}
+		{80EAC9BB-DC3C-4BBF-97CF-3EC1AA85A8C2} = {FADA4ABA-A068-46D8-9B1C-6C38C63D71D9}
+		{AB009046-9E1A-461E-87D1-513414252779} = {FADA4ABA-A068-46D8-9B1C-6C38C63D71D9}
+		{F9C42AF1-1B0B-4952-9B2B-63EC57BE8BB4} = {FADA4ABA-A068-46D8-9B1C-6C38C63D71D9}
+		{2F742885-571F-4F0F-830B-DCCE77B53D10} = {A3BBCA0E-AA96-4522-BC78-28CAA2E63EA3}
+		{1E8D4FEE-31F0-4135-B874-B45CBCB6F3DF} = {2F742885-571F-4F0F-830B-DCCE77B53D10}
+		{49AF322A-68A1-4378-B2BE-34F012D6C09A} = {2F742885-571F-4F0F-830B-DCCE77B53D10}
+	EndGlobalSection
+EndGlobal
