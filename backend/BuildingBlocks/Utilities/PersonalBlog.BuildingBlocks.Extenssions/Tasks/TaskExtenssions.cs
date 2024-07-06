@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-namespace PersonalBlog.BuildingBlocks.Extenssions.Tasks;
+﻿namespace PersonalBlog.BuildingBlocks.Extenssions.Tasks;
 
 public static class TaskExtenssions
 {

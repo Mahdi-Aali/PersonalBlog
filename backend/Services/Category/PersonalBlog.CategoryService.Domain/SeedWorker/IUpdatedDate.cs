@@ -2,5 +2,5 @@
 
 public interface IUpdatedDate
 {
-    public DateTime UpdatedDate { get; set; 
+    public DateTime? UpdatedDate { get; set; }
 }

@@ -1,4 +1,11 @@
-﻿using PersonalBlog.BuildingBlocks.DependencyResolver.DependencyProviderContracts;
+﻿using Microsoft.AspNetCore.Mvc;
+using PersonalBlog.BuildingBlocks.DependencyResolver.DependencyProviderContracts;
+using PersonalBlog.CategoryService.Domain.AggregateModels.CategoryAggregate;
+using PersonalBlog.CategoryService.Infrastructure.Database;
+using PersonalBlog.CategoryService.Infrastructure.Repositories.CategoryAggregate;
+using Quartz;
+using Serilog;
+using StackExchange.Redis;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -12,6 +19,11 @@ public class ApiDependencyProvider : IDependencyProvider
         AddSwaggerGen(services);
         AddControllers(services);
         AddCors(services, configuration);
+        AddQuartz(services);
+        AddSerilog(services);
+        AddRedisCache(services, configuration);
+        ResolveDependencyInjections(services);
+        ConfigureApiBehaviorOptions(services);
         return services;
     }   
 
@@ -44,6 +56,16 @@ public class ApiDependencyProvider : IDependencyProvider
         return services;
     }
 
+    public virtual IServiceCollection AddQuartz(IServiceCollection services)
+    {
+        services.AddQuartz();
+        services.AddQuartzHostedService(cfg =>
+        {
+            cfg.WaitForJobsToComplete = true;
+        });
+        return services;
+    }
+
     public virtual IServiceCollection AddCors(IServiceCollection services, IConfiguration configuration)
     {
         string[] allowedOrigins = configuration.GetSection("CorsAllowedOrigins").Get<string[]>()!;
@@ -64,6 +86,46 @@ public class ApiDependencyProvider : IDependencyProvider
                 .AllowAnyMethod()
                 .AllowAnyHeader();
             });
+        });
+
+        return services;
+    }
+
+    public virtual IServiceCollection AddRedisCache(IServiceCollection services, IConfiguration configurations)
+    {
+        services.AddDistributedMemoryCache();
+        services.AddStackExchangeRedisCache(cfg =>
+        {
+            cfg.Configuration = configurations.GetConnectionString("Redis");
+            cfg.InstanceName = "RedisCache";
+            cfg.ConfigurationOptions = new ConfigurationOptions()
+            {
+                ConnectRetry = 5
+            };
+        });
+
+        return services;
+    }
+
+    public virtual IServiceCollection AddSerilog(IServiceCollection services)
+    {
+        services.AddSerilog();
+        return services;
+    }
+
+    public virtual IServiceCollection ResolveDependencyInjections(IServiceCollection services)
+    {
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<DbContextHandlerBase<Category, CategoryServiceDbContext>, DefaultCategoryDbContextHandler>();
+
+        return services;
+    }
+
+    public virtual IServiceCollection ConfigureApiBehaviorOptions(IServiceCollection services)
+    {
+        services.Configure<ApiBehaviorOptions>(cfg =>
+        {
+            cfg.SuppressModelStateInvalidFilter = true;
         });
 
         return services;

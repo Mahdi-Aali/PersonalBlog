@@ -12,12 +12,15 @@ public class ApiControllerBase : ControllerBase
     public ApiControllerBase(IDistributedCache cache) => _cache = cache;
 
 
-    public virtual async Task SetToCacheAsync(string key, object value)
+    [NonAction]
+    private async Task SetToCacheAsync(string key, object value)
     {
         await _cache.SetStringAsync(key, JsonSerializer.Serialize(value)).WithTimeout(TimeSpan.FromSeconds(2));
     }
 
-    public virtual async Task<TResult> GetFromCacheAsync<TResult>(string key)
+
+    [NonAction]
+    private async Task<TResult> GetFromCacheAsync<TResult>(string key)
     {
         return JsonSerializer.Deserialize<TResult>(await _cache.GetStringAsync(key).WithTimeout(TimeSpan.FromSeconds(2)) ?? "") ?? default(TResult)!;
     }
