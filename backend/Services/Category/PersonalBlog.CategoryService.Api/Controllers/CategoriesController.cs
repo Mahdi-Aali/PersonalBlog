@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using PersonalBlog.CategoryService.Api.Helpers;
@@ -14,11 +15,13 @@ namespace PersonalBlog.CategoryService.Api.Controllers;
 [ApiController]
 public class CategoriesController : ApiControllerBase
 {
-    private ISender _sender;
+    private readonly ISender _sender;
+    private readonly IDataProtector _dataProtector;
 
-    public CategoriesController(IDistributedCache cache, ISender sender) : base(cache)
+    public CategoriesController(IDistributedCache cache, ISender sender, IDataProtectionProvider dataProtectionProvider) : base(cache)
     {
         _sender = sender;
+        _dataProtector = dataProtectionProvider.CreateProtector(nameof(CategoriesController));
     }
 
 
@@ -37,7 +40,7 @@ public class CategoriesController : ApiControllerBase
         {
             return Ok(responseBuilder
                 .SetHeaders(new(StatusCodes.Status200OK, ["OK"]))
-                .SetPayload(new(await _sender.Send(new GetAllCategoriesQuery(dto))))
+                .SetPayload(new(await _sender.Send(new GetAllCategoriesQuery(dto, _dataProtector))))
                 .Build());
         }
         else

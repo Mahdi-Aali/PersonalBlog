@@ -1,0 +1,6 @@
+@PersonalBlog.ApiKeyRepository.Api_HostAddress = http://localhost:5026
+
+GET {{PersonalBlog.ApiKeyRepository.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

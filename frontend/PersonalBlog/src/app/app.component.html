@@ -1,0 +1,8 @@
+<ul *ngFor="let item of categories">
+  <li>
+    <a href="/category/{{item.id}}/{{item.title}}" >{{item.title}}</a>
+  </li>
+</ul>
+
+
+<router-outlet />

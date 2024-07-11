@@ -24,6 +24,7 @@ public class ApiDependencyProvider : IDependencyProvider
         AddRedisCache(services, configuration);
         ResolveDependencyInjections(services);
         ConfigureApiBehaviorOptions(services);
+        AddDataProtection(services);
         return services;
     }   
 
@@ -128,6 +129,12 @@ public class ApiDependencyProvider : IDependencyProvider
             cfg.SuppressModelStateInvalidFilter = true;
         });
 
+        return services;
+    }
+
+    public virtual IServiceCollection AddDataProtection(IServiceCollection services)
+    {
+        services.AddDataProtection();
         return services;
     }
 }

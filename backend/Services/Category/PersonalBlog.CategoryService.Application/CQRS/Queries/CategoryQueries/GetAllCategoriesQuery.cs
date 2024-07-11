@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.DataProtection;
 using PersonalBlog.CategoryService.Application.DTOs.Category;
 using PersonalBlog.CategoryService.Application.DTOs.Category.VerbDtos;
 using PersonalBlog.CategoryService.Domain.AggregateModels.CategoryAggregate;
@@ -9,8 +10,9 @@ namespace PersonalBlog.CategoryService.Application.CQRS.Queries.CategoryQueries;
 public class GetAllCategoriesQuery : IRequest<AggregatePagedResult<IEnumerable<CategoryDto>>>
 {
     public GetCategoriesDto GetCategoriesDto { get; private set; }
+    public IDataProtector DataProtector { get; private set; }
 
-    public GetAllCategoriesQuery(GetCategoriesDto? getCategoriesDto)
+    public GetAllCategoriesQuery(GetCategoriesDto? getCategoriesDto, IDataProtector dataProtector)
     {
         if (getCategoriesDto == null)
         {
@@ -20,6 +22,9 @@ public class GetAllCategoriesQuery : IRequest<AggregatePagedResult<IEnumerable<C
         {
             GetCategoriesDto = getCategoriesDto;
         }
+
+
+        DataProtector = dataProtector;
     }
 }
 
@@ -41,6 +46,6 @@ public class GetAllCategoriesQueryHandler : IRequestHandler<GetAllCategoriesQuer
             , cancellationToken);
 
         //TODO: use adapter to fix this
-        return new(result.PageId, result.ItemPerPage, result.TotalItems, result.Result.Select(x => new CategoryDto(x.Id, x.Title)));
+        return new(result.PageId, result.ItemPerPage, result.TotalItems, result.Result.Select(x => new CategoryDto(request.DataProtector.Protect(x.Id.ToString()), x.Title)));
     }
 }

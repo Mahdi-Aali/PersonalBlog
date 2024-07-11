@@ -8,6 +8,7 @@ namespace PersonalBlog.CategoryService.Api.StartupConfiguration;
 
 public abstract class ApiStartup : StartupBase
 {
+
     public sealed override void ConfigureService(WebApplicationBuilder builder)
     {
         base.ConfigureService(builder);
@@ -15,7 +16,10 @@ public abstract class ApiStartup : StartupBase
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
             .WriteTo.Console()
-            .WriteTo.Elasticsearch([new Uri(ProjectConfigurations.GetConnectionString("elastic-search")!)])
+            .WriteTo.Elasticsearch([new Uri(ProjectConfigurations.GetConnectionString("elastic-search")!)], cfg =>
+            {
+                cfg.DataStream = new("personal-blog-category-apm", @namespace:"personal_blog");
+            })
             .CreateLogger();
 
         IServiceCollection services = builder.Services;
