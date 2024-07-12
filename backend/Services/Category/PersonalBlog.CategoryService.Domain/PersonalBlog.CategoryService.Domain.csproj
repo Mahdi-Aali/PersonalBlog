@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\Utilities\PersonalBlog.BuildingBlocks.DependencyResolver\PersonalBlog.BuildingBlocks.DependencyResolver.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utilities\PersonalBlog.BuildingBlocks.Extenssions\PersonalBlog.BuildingBlocks.Extenssions.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Utilities\PersonalBlog.BuildingBlocks.Logging\PersonalBlog.BuildingBlocks.Logging.csproj" />
   </ItemGroup>
 
   <ItemGroup>

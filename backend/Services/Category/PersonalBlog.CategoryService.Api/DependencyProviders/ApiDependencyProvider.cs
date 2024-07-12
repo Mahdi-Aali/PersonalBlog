@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Elastic.Clients.Elasticsearch;
+using Elastic.Transport;
+using Microsoft.AspNetCore.Mvc;
 using PersonalBlog.BuildingBlocks.DependencyResolver.DependencyProviderContracts;
+using PersonalBlog.BuildingBlocks.Logging;
+using PersonalBlog.BuildingBlocks.Logging.Contracts;
 using PersonalBlog.CategoryService.Domain.AggregateModels.CategoryAggregate;
 using PersonalBlog.CategoryService.Infrastructure.Database;
 using PersonalBlog.CategoryService.Infrastructure.Repositories.CategoryAggregate;
@@ -22,7 +26,7 @@ public class ApiDependencyProvider : IDependencyProvider
         AddQuartz(services);
         AddSerilog(services);
         AddRedisCache(services, configuration);
-        ResolveDependencyInjections(services);
+        ResolveDependencyInjections(services, configuration);
         ConfigureApiBehaviorOptions(services);
         AddDataProtection(services);
         return services;
@@ -114,10 +118,15 @@ public class ApiDependencyProvider : IDependencyProvider
         return services;
     }
 
-    public virtual IServiceCollection ResolveDependencyInjections(IServiceCollection services)
+    public virtual IServiceCollection ResolveDependencyInjections(IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<DbContextHandlerBase<Category, CategoryServiceDbContext>, DefaultCategoryDbContextHandler>();
+        services.AddSingleton<BuildingBlocks.Logging.Contracts.ILogger, DefaultLoggerWithElastic>();
+        services.AddSingleton<ElasticsearchClient>(new ElasticsearchClient(
+            new ElasticsearchClientSettings(new Uri(configuration.GetConnectionString("elastic-search")!))
+            .Authentication(new ApiKey(configuration["ElasticApiKey"]!))
+            ));
 
         return services;
     }

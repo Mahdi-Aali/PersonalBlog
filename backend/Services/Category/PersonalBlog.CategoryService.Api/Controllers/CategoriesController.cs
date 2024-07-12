@@ -17,11 +17,13 @@ public class CategoriesController : ApiControllerBase
 {
     private readonly ISender _sender;
     private readonly IDataProtector _dataProtector;
+    private readonly Logging.ILogger _logger;
 
-    public CategoriesController(IDistributedCache cache, ISender sender, IDataProtectionProvider dataProtectionProvider) : base(cache)
+    public CategoriesController(IDistributedCache cache, ISender sender, IDataProtectionProvider dataProtectionProvider, Logging.ILogger logger) : base(cache)
     {
         _sender = sender;
         _dataProtector = dataProtectionProvider.CreateProtector(nameof(CategoriesController));
+        _logger = logger;
     }
 
 
@@ -93,7 +95,7 @@ public class CategoriesController : ApiControllerBase
             .SetHeaders(new(StatusCodes.Status400BadRequest, ModelState.SelectMany(s => s.Value?.Errors.Select(error => error.ErrorMessage)!).ToArray()))
             .SetPayload(new(null!))
             .Build()
-            ); ;
+            );
     }
 
 }

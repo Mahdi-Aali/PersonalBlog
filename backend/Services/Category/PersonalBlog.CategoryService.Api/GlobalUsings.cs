@@ -1,0 +1,1 @@
+﻿global using Logging = PersonalBlog.BuildingBlocks.Logging.Contracts;

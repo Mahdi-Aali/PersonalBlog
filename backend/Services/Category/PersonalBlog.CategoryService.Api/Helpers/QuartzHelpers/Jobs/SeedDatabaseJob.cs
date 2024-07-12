@@ -8,13 +8,12 @@ namespace PersonalBlog.CategoryService.Api.Helpers.QuartzHelpers.Jobs;
 public class SeedDatabaseJob : IJob
 {
     private readonly CategoryServiceDbContext _context;
-    private readonly ILogger<SeedDatabaseJob> _logger;
+    private readonly Logging.ILogger _logger;
 
-    public SeedDatabaseJob(CategoryServiceDbContext context, ILogger<SeedDatabaseJob> logger)
+    public SeedDatabaseJob(CategoryServiceDbContext context, Logging.ILogger logger)
     {
         _context = context;
         _logger = logger;
-
     }
 
     public async Task Execute(IJobExecutionContext context)
@@ -25,7 +24,7 @@ public class SeedDatabaseJob : IJob
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error when seeding database.");
+            await _logger.LogError(ex, "Error when seeding database.");
         }
     }
 

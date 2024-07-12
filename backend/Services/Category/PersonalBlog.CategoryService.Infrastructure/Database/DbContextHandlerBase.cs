@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using PersonalBlog.BuildingBlocks.Extenssions.Tasks;
+using PersonalBlog.BuildingBlocks.Logging.Contracts;
 using PersonalBlog.CategoryService.Domain.SeedWorker;
 using System.Linq.Expressions;
 
@@ -9,9 +9,9 @@ namespace PersonalBlog.CategoryService.Infrastructure.Database;
 public abstract class DbContextHandlerBase<TEntity, TDbContext> where TEntity : Entity where TDbContext : DbContext, IUnitOfWork
 {
     private TDbContext _context;
-    private ILogger<IRepository> _logger;
+    private ILogger _logger;
 
-    protected DbContextHandlerBase(TDbContext context, ILogger<IRepository> logger)
+    protected DbContextHandlerBase(TDbContext context, ILogger logger)
     {
         _context = context;
         _logger = logger;
@@ -31,7 +31,7 @@ public abstract class DbContextHandlerBase<TEntity, TDbContext> where TEntity : 
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "entity can't be null");
+            await _logger.LogError(ex, "entity can't be null");
             return null!;
         }
     }
@@ -40,15 +40,12 @@ public abstract class DbContextHandlerBase<TEntity, TDbContext> where TEntity : 
     {
         try
         {
-            return await Task.Run(() =>
-            {
-                return _context.Set<TEntity>();
-            })
+            return await Task.Run(_context.Set<TEntity>)
            .WithTimeout(TimeSpan.FromSeconds(5));
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "failed to fetch data from database.");
+            await _logger.LogError(ex, "failed to fetch data from database.");
             return Enumerable.Empty<TEntity>().AsQueryable();
         }
     }
@@ -61,7 +58,7 @@ public abstract class DbContextHandlerBase<TEntity, TDbContext> where TEntity : 
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "failed to cound data.");
+            await _logger.LogError(ex, "failed to cound data.");
             return 0;
         }
     }
@@ -74,7 +71,7 @@ public abstract class DbContextHandlerBase<TEntity, TDbContext> where TEntity : 
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "failed to count data.");
+            await _logger.LogError(ex, "failed to count data.");
             return 0;
         }
     }
@@ -87,7 +84,7 @@ public abstract class DbContextHandlerBase<TEntity, TDbContext> where TEntity : 
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "failed to count data.");
+            await _logger.LogError(ex, "failed to count data.");
             return 0;
         }
     }
@@ -105,7 +102,7 @@ public abstract class DbContextHandlerBase<TEntity, TDbContext> where TEntity : 
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "failed to update data.");
+            await _logger.LogError(ex, "failed to update data.");
             return null!;
         }
     }

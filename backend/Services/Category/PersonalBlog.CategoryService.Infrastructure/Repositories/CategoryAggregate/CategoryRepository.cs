@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using PersonalBlog.BuildingBlocks.Logging.Contracts;
 using PersonalBlog.CategoryService.Domain.AggregateModels.CategoryAggregate;
 using PersonalBlog.CategoryService.Domain.AggregateModels.CategoryAggregate.DomainEvents;
 using PersonalBlog.CategoryService.Domain.SeedWorker;
@@ -9,10 +9,10 @@ namespace PersonalBlog.CategoryService.Infrastructure.Repositories.CategoryAggre
 
 public class CategoryRepository : ICategoryRepository
 {
-    private readonly ILogger<CategoryRepository> _logger;
+    private readonly ILogger _logger;
     private readonly DbContextHandlerBase<Category, CategoryServiceDbContext> _dbContextHandler;
 
-    public CategoryRepository(ILogger<CategoryRepository> logger, DbContextHandlerBase<Category, CategoryServiceDbContext> dbContextHandler)
+    public CategoryRepository(ILogger logger, DbContextHandlerBase<Category, CategoryServiceDbContext> dbContextHandler)
     {
         _logger = logger;
         _dbContextHandler = dbContextHandler;
