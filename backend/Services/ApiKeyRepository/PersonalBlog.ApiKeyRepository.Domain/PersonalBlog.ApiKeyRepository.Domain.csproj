@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\Utilities\PersonalBlog.BuildingBlocks.DependencyResolver\PersonalBlog.BuildingBlocks.DependencyResolver.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Utilities\PersonalBlog.BuildingBlocks.Extenssions\PersonalBlog.BuildingBlocks.Extenssions.csproj" />
   </ItemGroup>

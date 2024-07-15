@@ -1,7 +1,11 @@
-﻿using Elastic.Ingest.Elasticsearch.DataStreams;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Elastic.Ingest.Elasticsearch.DataStreams;
 using Elastic.Serilog.Sinks;
 using PersonalBlog.BuildingBlocks.DependencyResolver.DependencyProviderContracts;
 using PersonalBlog.CategoryService.Api.Helpers.QuartzHelpers;
+using PersonalBlog.CategoryService.Api.Middlewares.ErrorHandling;
+using PersonalBlog.CategoryService.Api.Middlewares.RequestLogging;
 using Quartz;
 using Serilog;
 namespace PersonalBlog.CategoryService.Api.StartupConfiguration;
@@ -16,11 +20,13 @@ public abstract class ApiStartup : StartupBase
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
             .WriteTo.Console()
-            .WriteTo.Elasticsearch([new Uri(ProjectConfigurations.GetConnectionString("elastic-search")!)], cfg =>
-            {
-                cfg.DataStream = new("personal-blog-category-apm", @namespace:"personal_blog");
-            })
             .CreateLogger();
+
+        builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
+            .ConfigureContainer<ContainerBuilder>(cfg =>
+            {
+                cfg.RegisterAssemblyModules(GetType().Assembly);
+            });
 
         IServiceCollection services = builder.Services;
         ResolveAssembliesDependencies(services);
@@ -54,6 +60,10 @@ public abstract class ApiStartup : StartupBase
         {
             await context.Response.WriteAsync("Healthy...");
         });
+
+
+        app.UseMiddleware<ElasticRequestLoggingMiddleware>();
+        app.UseMiddleware<ExceptionHandler>();
 
         await ScheduleCronJobs(app);
 

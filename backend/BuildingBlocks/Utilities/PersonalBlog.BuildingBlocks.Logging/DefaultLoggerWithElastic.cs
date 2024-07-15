@@ -1,6 +1,7 @@
 ﻿using Elastic.Clients.Elasticsearch;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
 namespace PersonalBlog.BuildingBlocks.Logging;
 
@@ -40,6 +41,12 @@ public class DefaultLoggerWithElastic : Contracts.ILogger
         return log;
     }
 
+    public async Task LogInformation<TLog>(TLog log)
+    {
+        await SendLogToElastic(log);
+        _logger.LogInformation(JsonSerializer.Serialize(log));
+    }
+
     public virtual async Task<Log> LogWarning(string message)
     {
         Log log = new(LogType.Warning, message, null, null);
@@ -52,7 +59,7 @@ public class DefaultLoggerWithElastic : Contracts.ILogger
     }
 
 
-    private async Task SendLogToElastic(Log log)
+    private async Task SendLogToElastic<TLog>(TLog log)
     {
         try
         {

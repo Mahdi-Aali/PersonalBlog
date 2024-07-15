@@ -1,5 +1,5 @@
-﻿
-using Elastic.Serilog.Sinks;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using PersonalBlog.BuildingBlocks.DependencyResolver.DependencyProviderContracts;
 using PersonalBlog.SSO.Web.Helpers.QuartzHelpers;
 using Quartz;
@@ -16,11 +16,14 @@ public abstract class WebStartup : StartupBase
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
             .WriteTo.Console(Serilog.Events.LogEventLevel.Information)
-            .WriteTo.Elasticsearch([new Uri(ProjectConfigurations.GetConnectionString("elastic-search")!)], cfg =>
-            {
-                cfg.DataStream = new("personal-blog-category-apm", @namespace: "personal_blog");
-            })
             .CreateLogger();
+
+
+        builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
+            .ConfigureContainer<ContainerBuilder>(cfg =>
+            {
+                cfg.RegisterAssemblyModules(ProjectAssemblies.ToArray());
+            });
 
         IServiceCollection services = builder.Services;
         ResolveAssembliesDependencies(services);
@@ -78,24 +81,5 @@ public abstract class WebStartup : StartupBase
         IScheduler scheduler = await schedulerFactory.GetScheduler();
 
         await scheduler.ScheduleJobs(QuartzJobScheduler.GetJobs(), false);
-    }
-}
-
-
-public class BlahBlahBlah<TType> : Microsoft.Extensions.Logging.ILogger<TType>
-{
-    public IDisposable? BeginScope<TState>(TState state) where TState : notnull
-    {
-        throw new NotImplementedException();
-    }
-
-    public bool IsEnabled(LogLevel logLevel)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
-    {
-        throw new NotImplementedException();
     }
 }

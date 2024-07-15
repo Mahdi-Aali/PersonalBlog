@@ -2,7 +2,7 @@
 
 namespace PersonalBlog.CategoryService.Domain.AggregateModels.CategoryAggregate;
 
-public partial class Category : Entity, ICreatedDate, IUpdatedDate
+public partial class Category : Entity, IAggregateRoot, ICreatedDate, IUpdatedDate
 {
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;

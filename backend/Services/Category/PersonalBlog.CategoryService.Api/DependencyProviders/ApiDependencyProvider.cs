@@ -26,7 +26,6 @@ public class ApiDependencyProvider : IDependencyProvider
         AddQuartz(services);
         AddSerilog(services);
         AddRedisCache(services, configuration);
-        ResolveDependencyInjections(services, configuration);
         ConfigureApiBehaviorOptions(services);
         AddDataProtection(services);
         return services;
@@ -115,19 +114,6 @@ public class ApiDependencyProvider : IDependencyProvider
     public virtual IServiceCollection AddSerilog(IServiceCollection services)
     {
         services.AddSerilog();
-        return services;
-    }
-
-    public virtual IServiceCollection ResolveDependencyInjections(IServiceCollection services, IConfiguration configuration)
-    {
-        services.AddScoped<ICategoryRepository, CategoryRepository>();
-        services.AddScoped<DbContextHandlerBase<Category, CategoryServiceDbContext>, DefaultCategoryDbContextHandler>();
-        services.AddSingleton<BuildingBlocks.Logging.Contracts.ILogger, DefaultLoggerWithElastic>();
-        services.AddSingleton<ElasticsearchClient>(new ElasticsearchClient(
-            new ElasticsearchClientSettings(new Uri(configuration.GetConnectionString("elastic-search")!))
-            .Authentication(new ApiKey(configuration["ElasticApiKey"]!))
-            ));
-
         return services;
     }
 

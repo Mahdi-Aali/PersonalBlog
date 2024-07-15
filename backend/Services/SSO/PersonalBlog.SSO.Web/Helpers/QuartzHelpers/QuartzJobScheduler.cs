@@ -6,6 +6,6 @@ public class QuartzJobScheduler
 {
     public static IReadOnlyDictionary<IJobDetail, IReadOnlyCollection<ITrigger>> GetJobs()
     {
-
+        return null!;
     }
 }
