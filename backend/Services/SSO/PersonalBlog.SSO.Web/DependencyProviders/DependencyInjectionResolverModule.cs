@@ -1,6 +1,7 @@
 ﻿using Autofac;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Transport;
 using PersonalBlog.BuildingBlocks.Logging;
-using Logging = PersonalBlog.BuildingBlocks.Logging.Contracts;
 using System.Reflection;
 
 namespace PersonalBlog.SSO.Web.DependencyProviders;
@@ -31,7 +32,12 @@ public class DependencyInjectionResolverModule : Autofac.Module
         base.Load(builder);
 
 
-        builder.RegisterType<DefaultLoggerWithElastic>().As<Logging::ILogger>().InstancePerLifetimeScope();
+        builder.RegisterType<DefaultLoggerWithElastic>().As<Logging.ILogger>().InstancePerLifetimeScope();
+        builder.RegisterInstance(
+            new ElasticsearchClient(
+                new ElasticsearchClientSettings(new Uri(_configuration.GetConnectionString("elastic-search")!))
+                .Authentication(new ApiKey(_configuration["ElasticApiKey"]!)
+                ))).SingleInstance();
 
     }
 }

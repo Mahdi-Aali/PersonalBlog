@@ -9,7 +9,7 @@ namespace PersonalBlog.SSO.Web.StartupConfiguration;
 
 public abstract class WebStartup : StartupBase
 {
-    public override void ConfigureService(WebApplicationBuilder builder)
+    public sealed override void ConfigureService(WebApplicationBuilder builder)
     {
         base.ConfigureService(builder);
 

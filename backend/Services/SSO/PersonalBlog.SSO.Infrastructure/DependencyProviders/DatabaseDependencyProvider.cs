@@ -11,11 +11,11 @@ public class DatabaseDependencyProvider : IDependencyProvider
 {
     public IServiceCollection GetDependencies(IServiceCollection services, IConfiguration configuration, IEnumerable<Assembly> assemblies)
     {
-
+        RegisterDbContext(services, configuration);
         return services;
     }
 
-    public virtual IServiceCollection AddDbContext(IServiceCollection services, IConfiguration configuration)
+    public virtual IServiceCollection RegisterDbContext(IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<SSODbContext>(cfg =>
         {
@@ -23,7 +23,7 @@ public class DatabaseDependencyProvider : IDependencyProvider
             {
                 sqlcfg
                 .EnableRetryOnFailure(2, TimeSpan.FromSeconds(5), null)
-                .MigrationsAssembly("PersonalBlog.SSO.Application");
+                .MigrationsAssembly("PersonalBlog.SSO.Web");
             })
             .EnableDetailedErrors()
             .EnableSensitiveDataLogging();

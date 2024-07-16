@@ -8,13 +8,11 @@ public class NewRoleCreatedDomainEvents : INotification
 
     public required Guid RoleId { get; set; }
     public required string RoleName { get; set; } = string.Empty;
-    public required Guid CreatedBy { get; set; }
 
     [SetsRequiredMembers]
-    public NewRoleCreatedDomainEvents(Guid roleId, string roleName, Guid createdBy)
+    public NewRoleCreatedDomainEvents(Guid roleId, string roleName)
     {
         RoleId = roleId;
         RoleName = roleName;
-        CreatedBy = createdBy;
     }
 }

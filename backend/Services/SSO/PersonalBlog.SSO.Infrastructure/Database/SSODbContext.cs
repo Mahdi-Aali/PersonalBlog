@@ -12,6 +12,7 @@ public partial class SSODbContext : IdentityDbContext<PersonalBlogUser, Personal
     private readonly IPublisher _publisher;
     private readonly ILogger<SSODbContext> _logger;
 
+    public DbSet<UserAccountStatus> UserAccountStatuses => Set<UserAccountStatus>();
 
     public SSODbContext(IPublisher publisher, ILogger<SSODbContext> logger, DbContextOptions<SSODbContext> options) : base(options)
     {

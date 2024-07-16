@@ -16,6 +16,7 @@ namespace PersonalBlog.SSO.Web.DependencyProviders
             AddControllerWithViews(services);
             AddRazorPages(services);
             AddIdentity(services);
+            ConfigureCors(services, configuration);
             ConfigureCookieAuthentication(services);
             EnableDistributionCache(services);
             AddRedisCache(services, configuration);
@@ -37,6 +38,23 @@ namespace PersonalBlog.SSO.Web.DependencyProviders
             })
                 .AddEntityFrameworkStores<SSODbContext>();
 
+
+            return services;
+        }
+
+        public virtual IServiceCollection ConfigureCors(IServiceCollection services, IConfiguration configuration)
+        {
+            string[] allowedOrigins = configuration.GetSection("AllowedCorsOrigins").Get<string[]>()!;
+            services.AddCors(cfg =>
+            {
+                cfg.AddPolicy(configuration["CorsName"]!, corsCfg =>
+                {
+                    corsCfg
+                    .AllowAnyHeader()
+                    .WithOrigins(allowedOrigins)
+                    .AllowAnyMethod();
+                });
+            });
 
             return services;
         }

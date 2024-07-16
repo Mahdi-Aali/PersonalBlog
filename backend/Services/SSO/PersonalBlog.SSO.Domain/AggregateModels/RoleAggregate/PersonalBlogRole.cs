@@ -8,14 +8,8 @@ namespace PersonalBlog.SSO.Domain.AggregateModels.RoleAggregate;
 public class PersonalBlogRole : IdentityRole<Guid>, ISSOEntity, ICreatedDate, IUpdatedDate
 {
     private List<INotification> _domainEvents = new();
-
-    public Guid OwnerId { get; set; }
-    public Guid? UpdaterId { get; set; }
     public DateTime CreatedData { get; set; }
     public DateTime? UpdatedDate { get; set; }
-
-    public PersonalBlogUser Owner { get; set; } = null!;
-    public PersonalBlogUser? Updater { get; set; }
 
 
 
